@@ -1,0 +1,14 @@
+import turtle
+
+t=turtle.pen()
+
+t.goto(0,-100)
+t.goto(0,0)
+t.goto(0,100)
+t.goto(400,-100)
+t.goto(400,-200)
+t.goto(400,100)
+t.goto(400.200)
+t.goto(600,0)
+
+turtle.done()
