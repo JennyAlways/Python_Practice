@@ -24,7 +24,6 @@ def encrypt(*messageTuple):
         encryptMessageList.append(encryptMessage)
         keyDict[encryptMessage] =keyList
     return encryptMessageList
-print keyDict
 
 #解密
 def decrypt(encryptedMessage):
@@ -36,11 +35,8 @@ def decrypt(encryptedMessage):
         print eMessage
         for i in range(len(letterList)):
             key=keyList[i]
-            acsNum = ord (letterList[i])
-            print acsNum
-            print key
-            acsNum  = acsNum - key
-            print acsNum
+            acsNum = ord (letterList[i])                          
+            acsNum  = acsNum - key                         
             decryptList.append(chr (acsNum))
         decryptMessage = "".join (decryptList)
         rList.append(decryptMessage)       

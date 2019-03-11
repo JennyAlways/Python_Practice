@@ -1,14 +1,8 @@
-#!/usr/bin/python2.6  
 # -*- coding: utf-8 -*-
-key = 3
 
 import random
-
-keyDict = {}
-
-#加密
 def encrypt(*messageTuple):
-    global keyDict
+    keyDict = {}
     encryptMessageList = []
     for message in messageTuple:
         keyList = []
@@ -16,20 +10,39 @@ def encrypt(*messageTuple):
         encryptList = []                                           
         for i in range(len(letterList)):
             acsNum = ord (letterList[i])
-            key =random.randint(1,20)
-            keyList.append(key)
+            key =random.randint(0,9)
+            keyList.append(str(key))
             acsNum  = acsNum + key
             encryptList.append(chr (acsNum))               
         encryptMessage = "".join (encryptList)
         encryptMessageList.append(encryptMessage)
-        keyDict[encryptMessage] =keyList
+        keyDict[encryptMessage] = "".join(keyList)
+    
+    FILENAME = "key.txt"
+    keyFile = open(FILENAME, "a")
+    for key in keyDict.keys():
+        keyFile.write(key+":"+keyDict[key]+"\n")
+    keyFile.close()
     return encryptMessageList
-print keyDict
 
-#解密
-def decrypt(encryptedMessage):
+result = encrypt("abc","cde","efg")
+print result
+
+def decrypt(encryptMessageTurple):
     rList = []
-    for eMessage in encryptedMessage:
+    keyList = []
+    keyDict = {}
+    FILENAME = "key.txt"
+    keyFile = open(FILENAME, "r")
+    keyData = keyFile.readlines()
+    keyFile.close()
+    for keyLine in keyData:
+        keyList.append(keyLine.strip().split(":"))
+    for key in keyList:
+        keyDict[key[0]] = key[1]
+    print keyDict
+
+    for eMessage in encryptMessageTurple:
         letterList = list(eMessage)
         keyList = keyDict[eMessage]
         decryptList = []
@@ -37,19 +50,10 @@ def decrypt(encryptedMessage):
         for i in range(len(letterList)):
             key=keyList[i]
             acsNum = ord (letterList[i])
-            print acsNum
-            print key
-            acsNum  = acsNum - key
-            print acsNum
+            acsNum = acsNum - int(key)
             decryptList.append(chr (acsNum))
         decryptMessage = "".join (decryptList)
-        rList.append(decryptMessage)       
+        rList.append(encryptMessageTurple)       
     return rList
-
-temp1 = encrypt("abc","123")
-print temp1
-print keyDict
-
-
-temp2 = decrypt(temp1)
-print temp2
+    
+decrypt(result)
